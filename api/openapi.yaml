@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: CRM Prototype API
+  version: "0.0.1"
+  description: >
+    OpenAPI-first contract for the CRM prototype. Spring server interfaces and the
+    TypeScript client are generated from this file by `npm run api`. See CLAUDE.md.
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      summary: Liveness check
+      tags:
+        - Health
+      responses:
+        "200":
+          description: The service is up.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          example: ok

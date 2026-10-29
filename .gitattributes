@@ -1,0 +1,7 @@
+# The OpenAPI spec and everything generated from it (WP0.3) must always use LF, regardless of
+# this machine's git/editor line-ending settings. The "npm run verify" drift check compares
+# freshly generated output (always LF) against these committed files byte-for-byte, so a
+# Windows checkout that silently rewrote them to CRLF would fail the check for no real reason.
+api/openapi.yaml text eol=lf
+backend/app/src/generated/** text eol=lf
+frontend/src/api/schema.d.ts text eol=lf

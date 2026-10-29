@@ -10,14 +10,16 @@
     "db:start": "node scripts/db-start.js",
     "db:stop": "node scripts/db-stop.js",
     "db:reset": "node scripts/db-reset.js",
-    "verify": "npm run verify:backend && npm run verify:frontend",
+    "verify": "npm run verify:api-fresh && npm run verify:backend && npm run verify:frontend",
+    "verify:api-fresh": "node scripts/check-api-fresh.js",
     "verify:backend": "cd backend && .\\mvnw.cmd verify",
     "verify:frontend": "npm --prefix frontend run verify",
-    "api": "node scripts/not-implemented.js \"npm run api\" WP0.3",
+    "api": "node scripts/generate-api.js",
     "seed": "node scripts/not-implemented.js \"npm run seed\" WP12.1",
     "e2e": "node scripts/not-implemented.js \"npm run e2e\" WP12.2"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "2.42.0",
     "concurrently": "^9.1.0"
   }
 }

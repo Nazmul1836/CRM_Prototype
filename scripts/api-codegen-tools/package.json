@@ -1,0 +1,9 @@
+{
+  "name": "api-codegen-tools",
+  "private": true,
+  "description": "Isolated install of openapi-typescript, pinned to a TypeScript 5.x it actually supports, kept apart from the frontend's own TypeScript 7.x so the two never conflict. Used only by scripts/generate-api.js and scripts/check-api-fresh.js.",
+  "devDependencies": {
+    "openapi-typescript": "7.13.0",
+    "typescript": "5.9.3"
+  }
+}

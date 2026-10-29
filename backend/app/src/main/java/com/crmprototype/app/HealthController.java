@@ -1,14 +1,15 @@
 package com.crmprototype.app;
 
-import java.util.Map;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.crmprototype.app.generated.api.HealthApi;
+import com.crmprototype.app.generated.model.HealthStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HealthController {
+public class HealthController implements HealthApi {
 
-    @GetMapping("/health")
-    public Map<String, String> health() {
-        return Map.of("status", "ok");
+    @Override
+    public ResponseEntity<HealthStatus> getHealth() {
+        return ResponseEntity.ok(new HealthStatus("ok"));
     }
 }
