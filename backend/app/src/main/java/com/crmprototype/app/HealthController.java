@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HealthController implements HealthApi {
 
-    @Override
-    public ResponseEntity<HealthStatus> getHealth() {
-        return ResponseEntity.ok(new HealthStatus("ok"));
-    }
+  @Override
+  public ResponseEntity<HealthStatus> getHealth() {
+    return ResponseEntity.ok(new HealthStatus("ok"));
+  }
 }

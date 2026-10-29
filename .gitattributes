@@ -5,3 +5,8 @@
 api/openapi.yaml text eol=lf
 backend/app/src/generated/** text eol=lf
 frontend/src/api/schema.d.ts text eol=lf
+
+# Java sources must always be LF too (WP0.5): google-java-format (Spotless) writes LF
+# unconditionally, so a Windows checkout that converts them to CRLF would make every file look
+# "unformatted" to spotless:check for no real reason, the same class of problem as above.
+*.java text eol=lf

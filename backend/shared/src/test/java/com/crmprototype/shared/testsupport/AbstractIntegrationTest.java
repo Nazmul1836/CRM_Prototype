@@ -14,29 +14,29 @@ import org.junit.jupiter.api.BeforeAll;
  */
 public abstract class AbstractIntegrationTest {
 
-    private static EmbeddedPostgres embeddedPostgres;
+  private static EmbeddedPostgres embeddedPostgres;
 
-    @BeforeAll
-    static void startEmbeddedPostgres() throws IOException {
-        embeddedPostgres = EmbeddedPostgres.builder().start();
-    }
+  @BeforeAll
+  static void startEmbeddedPostgres() throws IOException {
+    embeddedPostgres = EmbeddedPostgres.builder().start();
+  }
 
-    @AfterAll
-    static void stopEmbeddedPostgres() throws IOException {
-        if (embeddedPostgres != null) {
-            embeddedPostgres.close();
-        }
+  @AfterAll
+  static void stopEmbeddedPostgres() throws IOException {
+    if (embeddedPostgres != null) {
+      embeddedPostgres.close();
     }
+  }
 
-    protected static DataSource dataSource() {
-        return embeddedPostgres.getPostgresDatabase();
-    }
+  protected static DataSource dataSource() {
+    return embeddedPostgres.getPostgresDatabase();
+  }
 
-    protected static String jdbcUrl() {
-        return embeddedPostgres.getJdbcUrl("postgres", "postgres");
-    }
+  protected static String jdbcUrl() {
+    return embeddedPostgres.getJdbcUrl("postgres", "postgres");
+  }
 
-    protected static Connection connection() throws SQLException {
-        return dataSource().getConnection();
-    }
+  protected static Connection connection() throws SQLException {
+    return dataSource().getConnection();
+  }
 }

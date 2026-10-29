@@ -11,11 +11,10 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(HealthController.class)
 class HealthControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @Test
-    void healthEndpointReturns200() throws Exception {
-        mockMvc.perform(get("/health")).andExpect(status().isOk());
-    }
+  @Test
+  void healthEndpointReturns200() throws Exception {
+    mockMvc.perform(get("/health")).andExpect(status().isOk());
+  }
 }

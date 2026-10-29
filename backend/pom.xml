@@ -21,6 +21,9 @@
     <embedded-postgres.version>2.2.2</embedded-postgres.version>
     <!-- Matches the portable PostgreSQL 17.11 used for local development (WP0.2). -->
     <embedded-postgres-binaries.version>17.11.0</embedded-postgres-binaries.version>
+    <!-- 1.2.x is the line built against Spring Boot 3.3.x; Modulith 2.x targets a newer Boot. -->
+    <spring-modulith.version>1.2.13</spring-modulith.version>
+    <archunit.version>1.5.1</archunit.version>
   </properties>
 
   <dependencyManagement>
@@ -52,6 +55,18 @@
         <version>${embedded-postgres-binaries.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.modulith</groupId>
+        <artifactId>spring-modulith-bom</artifactId>
+        <version>${spring-modulith.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.tngtech.archunit</groupId>
+        <artifactId>archunit-junit5</artifactId>
+        <version>${archunit.version}</version>
       </dependency>
       <dependency>
         <groupId>io.zonky.test</groupId>
@@ -94,5 +109,53 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <!-- Active (not pluginManagement) so every module is formatted and linted the same way,
+         including backend/app's generated code exclusion. -->
+    <plugins>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>3.10.4</version>
+        <configuration>
+          <java>
+            <excludes>
+              <exclude>**/generated/**</exclude>
+            </excludes>
+            <googleJavaFormat />
+          </java>
+        </configuration>
+        <executions>
+          <execution>
+            <id>spotless-check</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.6.0</version>
+        <configuration>
+          <configLocation>${maven.multiModuleProjectDirectory}/checkstyle.xml</configLocation>
+          <excludes>**/generated/**</excludes>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+          <consoleOutput>true</consoleOutput>
+          <failOnViolation>true</failOnViolation>
+          <violationSeverity>warning</violationSeverity>
+        </configuration>
+        <executions>
+          <execution>
+            <id>checkstyle-check</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 </project>
