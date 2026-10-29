@@ -15,12 +15,15 @@ Machine and environment
 Windows 11, 64-bit. Java 21 (Oracle JDK), Node.js 22, Git. No Docker, no WSL, and no admin rights should be assumed.
 Project folder: C:\Projects\CRM_ProtoType (outside OneDrive).
 PostgreSQL runs from the portable zip inside .local/postgres/ (git-ignored), started and stopped by the npm scripts.
+Ports (all localhost only): backend 8080, frontend 5173 (Vite's default), database 55432.
 Integration tests use embedded PostgreSQL, not Testcontainers.
 Use the Maven wrapper (mvnw.cmd); do not require a global Maven install.
 Stack
 Backend: Spring Boot on Java 21, Spring Modulith, Maven multi-module (backend/app, backend/shared, backend/modules/*), Flyway, Spring Data JDBC plus jOOQ for dynamic queries.
 Frontend: React, TypeScript (strict), Vite, TanStack Query, Table and Virtual, dnd-kit, Tiptap, Radix UI, Tailwind on our own design tokens.
 API: OpenAPI-first in api/openapi.yaml; server interfaces and the TypeScript client are generated.
+Generated code lives in backend/app/src/generated/java (Spring interfaces) and frontend/src/api/schema.d.ts (TypeScript types); both are rebuilt by npm run api and must never be hand-edited. frontend/src/api/client.ts is the opposite: it is hand-written on purpose and is not regenerated.
+The TypeScript generator (openapi-typescript) needs an older TypeScript (5.x) than this project uses (7.x), so it is installed on its own in scripts/api-codegen-tools/ instead of alongside the frontend's real TypeScript, to avoid a version conflict.
 Commands (root npm scripts, all must work on Windows)
 Command	Does
 npm run dev	Starts PostgreSQL, the backend and the frontend
@@ -28,6 +31,10 @@ npm run verify	Runs every check: format, lint, unit and integration tests, archi
 npm run api	Regenerates code from api/openapi.yaml
 npm run seed	Loads the demo workspace
 npm run e2e	Runs Playwright end-to-end tests
+npm run db:init	One-time setup of the portable local database
+npm run db:start	Starts the local database on its own
+npm run db:stop	Stops the local database on its own
+npm run db:reset	Wipes and recreates the local database
 
 A script whose story is not built yet should print "not implemented yet" and exit successfully.
 
