@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:55432/crm_prototype
+    username: postgres
+    password: ""
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true

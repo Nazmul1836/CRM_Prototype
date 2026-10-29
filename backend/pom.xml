@@ -14,16 +14,56 @@
     <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <spring-boot.version>3.3.5</spring-boot.version>
+    <!-- Spring Boot 3.3.5 ships Flyway 10.10.0, which only tested up to PostgreSQL 16 and warns
+         on startup against PostgreSQL 17. 10.22.0 is the latest patch on the same major line and
+         officially supports PostgreSQL 17. -->
+    <flyway.version>10.22.0</flyway.version>
+    <embedded-postgres.version>2.2.2</embedded-postgres.version>
+    <!-- Matches the portable PostgreSQL 17.11 used for local development (WP0.2). -->
+    <embedded-postgres-binaries.version>17.11.0</embedded-postgres-binaries.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+      <!-- Declared ahead of the spring-boot-dependencies import below so these explicit
+           versions win over the ones baked into that BOM (a BOM's own ${flyway.version}
+           property is fixed when the BOM was published and is not affected by redefining
+           the property here). -->
+      <dependency>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-core</artifactId>
+        <version>${flyway.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-database-postgresql</artifactId>
+        <version>${flyway.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
         <version>${spring-boot.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>io.zonky.test.postgres</groupId>
+        <artifactId>embedded-postgres-binaries-bom</artifactId>
+        <version>${embedded-postgres-binaries.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>io.zonky.test</groupId>
+        <artifactId>embedded-postgres</artifactId>
+        <version>${embedded-postgres.version}</version>
+      </dependency>
+      <!-- commons-compress (pulled in by embedded-postgres) needs a newer commons-lang3 than
+           Spring Boot's BOM manages, or it fails at runtime with NoSuchMethodError. -->
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.21.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
